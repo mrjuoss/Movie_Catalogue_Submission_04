@@ -13,6 +13,9 @@ android {
         buildConfigField("String", "API_KEY", '"3ef012749c492463ebf91e83dabe2be7"')
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "API_KEY", "\"3ef012749c492463ebf91e83dabe2be7\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -23,6 +26,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {

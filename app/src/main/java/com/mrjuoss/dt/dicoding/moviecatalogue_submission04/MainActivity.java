@@ -2,25 +2,28 @@ package com.mrjuoss.dt.dicoding.moviecatalogue_submission04;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.helper.MyConstant;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResponseMovie;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.network.RestApiMovie;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.network.Client;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.network.Service;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textResult;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,39 +31,55 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textResult = findViewById(R.id.text_result);
+        progressBar = findViewById(R.id.progress_bar_movie);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MyConstant.BASE_URL_MOVIE+"api_key="+BuildConfig.API_KEY+"&language=en-US/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        loadData();
 
-        RestApiMovie restApiMovie = retrofit.create(RestApiMovie.class);
+    }
 
-        Call<List<ResultsItem>> call = restApiMovie.getMovies();
-
-        call.enqueue(new Callback<List<ResultsItem>>() {
-            @Override
-            public void onResponse(Call<List<ResultsItem>> call, Response<List<ResultsItem>> response) {
-                if (!response.isSuccessful()) {
-                    textResult.setText("Status Code : " + response.code());
-                    return;
-                }
-
-                List<ResultsItem> movies = response.body();
-
-                for (ResultsItem movie : movies) {
-                    String content = "";
-                    content += "ID : " + movie.getId() +"\n";
-                    content += "Title : " + movie.getTitle();
-
-                    textResult.append(content);
-                }
+    private void loadData() {
+        try {
+            if (BuildConfig.API_KEY.isEmpty()) {
+                Toast.makeText(this, "You must get API KEY", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                return;
             }
 
-            @Override
-            public void onFailure(Call<List<ResultsItem>> call, Throwable t) {
-                textResult.setText(t.getMessage());
-            }
-        });
+            Client client = new Client();
+
+            Service apiService = Client.getClient().create(Service.class);
+
+            Call<ResponseMovie> call = apiService.getResults(BuildConfig.API_KEY);
+
+            progressBar.setVisibility(View.VISIBLE);
+
+            call.enqueue(new Callback<ResponseMovie>() {
+                @Override
+                public void onResponse(Call<ResponseMovie> call, Response<ResponseMovie> response) {
+                    List<ResultsItem> results = response.body().getResults();
+
+                    for (ResultsItem result : results) {
+                        String content = "";
+                        content += "ID : " + result.getId() + "\n";
+                        content += "Title : " + result.getTitle() + "\n";
+                        content += "Release Date : " + result.getReleaseDate() + "\n";
+                        content += "\n";
+
+                        textResult.append(content);
+                    }
+
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseMovie> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+            Log.d("Error", e.getMessage());
+            Toast.makeText(this, "Error fet Data From API", Toast.LENGTH_SHORT).show();
+        }
     }
 }
