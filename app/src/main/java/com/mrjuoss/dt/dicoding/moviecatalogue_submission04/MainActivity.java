@@ -1,85 +1,92 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResponseMovie;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.network.Client;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.network.Service;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.google.android.material.tabs.TabLayout;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.adapter.TabPageAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textResult;
-    private ProgressBar progressBar;
+    private final String TAG = this.getClass().getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textResult = findViewById(R.id.text_result);
-        progressBar = findViewById(R.id.progress_bar_movie);
+        //textResult = findViewById(R.id.text_result);
+        //progressBar = findViewById(R.id.progress_bar_movie);
 
-        loadData();
+        Toolbar toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        configureTabLayout();
+        //loadData();
 
     }
 
-    private void loadData() {
-        try {
-            if (BuildConfig.API_KEY.isEmpty()) {
-                Toast.makeText(this, "You must get API KEY", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-                return;
+    private void configureTabLayout() {
+        final TabLayout tabLayout = findViewById(R.id.tab_layout);
+        final ViewPager viewPager = findViewById(R.id.view_pager);
+
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_movie)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_tv)));
+
+        final PagerAdapter adapter = new TabPageAdapter(
+          getSupportFragmentManager(),
+          tabLayout.getTabCount()
+        );
+
+        viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                Log.d(TAG, "onTabSelected !!!");
             }
 
-            Client client = new Client();
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-            Service apiService = Client.getClient().create(Service.class);
+            }
 
-            Call<ResponseMovie> call = apiService.getResults(BuildConfig.API_KEY);
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-            progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
-            call.enqueue(new Callback<ResponseMovie>() {
-                @Override
-                public void onResponse(Call<ResponseMovie> call, Response<ResponseMovie> response) {
-                    List<ResultsItem> results = response.body().getResults();
 
-                    for (ResultsItem result : results) {
-                        String content = "";
-                        content += "ID : " + result.getId() + "\n";
-                        content += "Title : " + result.getTitle() + "\n";
-                        content += "Release Date : " + result.getReleaseDate() + "\n";
-                        content += "\n";
 
-                        textResult.append(content);
-                    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                    progressBar.setVisibility(View.GONE);
-                }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-                @Override
-                public void onFailure(Call<ResponseMovie> call, Throwable t) {
-
-                }
-            });
-
-        } catch (Exception e) {
-            Log.d("Error", e.getMessage());
-            Toast.makeText(this, "Error fet Data From API", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_change_Setting) {
+            Intent menuIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            startActivity(menuIntent);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 }

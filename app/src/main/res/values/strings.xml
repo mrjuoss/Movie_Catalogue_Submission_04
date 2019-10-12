@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Movie Catalogue - Submission 04</string>
+    <string name="app_name">Submission 04</string>
+    <string name="tab_movie">Movies</string>
+    <string name="tab_tv">TV Shows</string>
+    <string name="tab_fav">Favorite</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_poster">Poster</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_tv_shows">TV Shows</string>
+    <string name="title_release">Release Date</string>
+    <string name="title_overview">Overview</string>
+    <string name="title_user_score">Rating</string>
+    <string name="rating">Rating</string>
+
+    <string name="change_language">Change Settings</string>
 </resources>
