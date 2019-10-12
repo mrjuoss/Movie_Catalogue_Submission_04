@@ -1,9 +1,13 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.tv;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ResultsItem{
+public class ResultsItem implements Parcelable {
 
 	@SerializedName("first_air_date")
 	private String firstAirDate;
@@ -147,4 +151,58 @@ public class ResultsItem{
 	public int getVoteCount(){
 		return voteCount;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.firstAirDate);
+		dest.writeString(this.overview);
+		dest.writeString(this.originalLanguage);
+		dest.writeList(this.genreIds);
+		dest.writeString(this.posterPath);
+		dest.writeStringList(this.originCountry);
+		dest.writeString(this.backdropPath);
+		dest.writeString(this.originalName);
+		dest.writeDouble(this.popularity);
+		dest.writeDouble(this.voteAverage);
+		dest.writeString(this.name);
+		dest.writeInt(this.id);
+		dest.writeInt(this.voteCount);
+	}
+
+	public ResultsItem() {
+	}
+
+	protected ResultsItem(Parcel in) {
+		this.firstAirDate = in.readString();
+		this.overview = in.readString();
+		this.originalLanguage = in.readString();
+		this.genreIds = new ArrayList<Integer>();
+		in.readList(this.genreIds, Integer.class.getClassLoader());
+		this.posterPath = in.readString();
+		this.originCountry = in.createStringArrayList();
+		this.backdropPath = in.readString();
+		this.originalName = in.readString();
+		this.popularity = in.readDouble();
+		this.voteAverage = in.readDouble();
+		this.name = in.readString();
+		this.id = in.readInt();
+		this.voteCount = in.readInt();
+	}
+
+	public static final Parcelable.Creator<ResultsItem> CREATOR = new Parcelable.Creator<ResultsItem>() {
+		@Override
+		public ResultsItem createFromParcel(Parcel source) {
+			return new ResultsItem(source);
+		}
+
+		@Override
+		public ResultsItem[] newArray(int size) {
+			return new ResultsItem[size];
+		}
+	};
 }

@@ -27,10 +27,10 @@ public class MovieRepository {
         moviesApi = Client.getClient().create(Service.class);
     }
 
-    public MutableLiveData<ResponseMovie> getMovies(String source, String key) {
+    public MutableLiveData<ResponseMovie> getMovies(String apiKey) {
         MutableLiveData<ResponseMovie> moviesData = new MutableLiveData<>();
 
-        moviesApi.getResults(BuildConfig.API_KEY)
+        moviesApi.getResultsMovie(BuildConfig.API_KEY)
                 .enqueue(new Callback<ResponseMovie>() {
                     @Override
                     public void onResponse(Call<ResponseMovie> call, Response<ResponseMovie> response) {

@@ -26,14 +26,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //textResult = findViewById(R.id.text_result);
-        //progressBar = findViewById(R.id.progress_bar_movie);
-
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         configureTabLayout();
-        //loadData();
+
 
     }
 
