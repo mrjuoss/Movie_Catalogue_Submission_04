@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_movie)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_tv)));
+        tabLayout.addTab(tabLayout.newTab().setText("Favorite"));
 
         final PagerAdapter adapter = new TabPageAdapter(
           getSupportFragmentManager(),

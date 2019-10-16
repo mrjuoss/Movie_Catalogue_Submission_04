@@ -1,8 +1,10 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.movie;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,10 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResponseMovie;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.Favorite;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
 
-public class MovieDetailActivity extends AppCompatActivity {
+import static android.provider.MediaStore.Files.FileColumns.TITLE;
+
+public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
     public static final String EXTRA_MOVIE = "extra_movie";
@@ -25,6 +29,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textDetailRatingMovie;
     private TextView textDetailreleaseMovie;
     private TextView textDetailOverviewMovie;
+    private Button buttonFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         textDetailOverviewMovie = findViewById(R.id.text_detail_overview_movie);
 
         progressBarDetailMovie.setVisibility(View.VISIBLE);
+
+        buttonFavorite = findViewById(R.id.button_favorite_movie);
+
+        buttonFavorite.setOnClickListener(this);
 
         final Handler handler = new Handler();
 
@@ -75,5 +84,29 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button_favorite_movie) {
+            // Ambil ID Movie ?
+            String title = textDetailTitleMovie.getText().toString().trim();
+            String overview = textDetailOverviewMovie.getText().toString().trim();
+            String releaseDate = textDetailreleaseMovie.getText().toString().trim();
+            // Ambil PosterPath Movie ?
+            String backdropPath = imageDetailPosterMovie.getResources().toString().trim();
+
+            Favorite favorite = new Favorite();
+            favorite.setTitle(title);
+            favorite.setOverview(overview);
+            favorite.setReleaseDate(releaseDate);
+            favorite.setBackdropPath(backdropPath);
+
+//            ContentValues values = new ContentValues();
+//            values.put(TITLE, title);
+//            values.put(OVERVIEW, overview);
+//            values.put(RELEASE_DATE, releaseDate);
+//            values.put(BACKDROP_PATH, backdropPath);
+        }
     }
 }
