@@ -10,10 +10,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1 ;
 
-    private static final String SQL_CREATE_TABLE_FAVORITE = String.format(
-      "CREATE TABLE %s"
-            + " (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-              " %s TEXT NOT NULL," +
+    private static final String SQL_CREATE_TABLE_FAVORITE = String.format("CREATE TABLE %s" +
+              " (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
               " %s TEXT NOT NULL," +
               " %s TEXT NOT NULL," +
               " %s TEXT NOT NULL," +
@@ -22,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
               " %s TEXT NOT NULL)",
             DatabaseContract.TABLE_NAME,
             DatabaseContract.FavoriteColumns._ID,
-            DatabaseContract.FavoriteColumns.ID_FAVORITE,
             DatabaseContract.FavoriteColumns.TITLE,
             DatabaseContract.FavoriteColumns.OVERVIEW,
             DatabaseContract.FavoriteColumns.RELEASE_DATE,

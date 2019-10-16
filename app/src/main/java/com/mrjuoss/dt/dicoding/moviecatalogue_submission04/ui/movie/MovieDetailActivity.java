@@ -3,6 +3,7 @@ package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.movie;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -90,33 +91,40 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+
+        favoriteHelper = FavoriteHelper.getInstance(getApplicationContext());
+
         if (v.getId() == R.id.button_favorite_movie) {
             ResultsItem movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
-            int idFavorite = movie.getId();
             String title = movie.getTitle();
             String overview = movie.getOverview();
             String releaseDate = movie.getReleaseDate();
             String posterPath = movie.getPosterPath();
             String backdropPath = movie.getBackdropPath();
+            String favoriteType = "movie";
+
+            Log.d(TAG, "1 : " + title);
+            Log.d(TAG, "2 : " + overview);
+            Log.d(TAG, "3 : " + releaseDate);
+            Log.d(TAG, "4 : " + posterPath);
+            Log.d(TAG, "5 : " + backdropPath);
+            Log.d(TAG, "6 : " + favoriteType);
 
             Favorite favorite = new Favorite();
-            favorite.setId(idFavorite);
             favorite.setTitle(title);
             favorite.setOverview(overview);
             favorite.setReleaseDate(releaseDate);
             favorite.setPosterPath(posterPath);
             favorite.setBackdropPath(backdropPath);
+            favorite.setTypeFavorite(favoriteType);
 
             ContentValues values = new ContentValues();
-            values.put(ID_FAVORITE, idFavorite);
             values.put(TITLE, title);
             values.put(OVERVIEW, overview);
             values.put(RELEASE_DATE, releaseDate);
             values.put(BACKDROP_PATH, backdropPath);
-            values.put(TYPE_FAVORITE, "movie");
-
-            favoriteHelper = FavoriteHelper.getInstance(getApplicationContext());
+            values.put(TYPE_FAVORITE, favoriteType);
 
             long result = favoriteHelper.insert(values);
 
@@ -125,6 +133,8 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             } else {
                 Toast.makeText(this, "Gagal menyimpan Data", Toast.LENGTH_SHORT).show();
             }
+
+            finish();
         }
     }
 }
