@@ -6,15 +6,15 @@ public class DatabaseContract {
 
     static String TABLE_NAME = "favorite";
 
-    static final class FavoriteColumns implements BaseColumns {
+    public static final class FavoriteColumns implements BaseColumns {
 
-        static int ID_FAVORITE = Integer.valueOf("id");
-        static String TITLE = "title";
-        static String OVERVIEW = "overview";
-        static String RELEASE_DATE = "releaseDate";
-        static String POSTER_PATH = "posterPath";
-        static String BACKDROP_PATH = "backdropPath";
-        static String TYPE_FAVORITE = "typeFavorite";
+        public static String ID_FAVORITE = "id";
+        public static String TITLE = "title";
+        public static String OVERVIEW = "overview";
+        public static String RELEASE_DATE = "releaseDate";
+        public static String POSTER_PATH = "posterPath";
+        public static String BACKDROP_PATH = "backdropPath";
+        public static String TYPE_FAVORITE = "typeFavorite";
 
     }
 }

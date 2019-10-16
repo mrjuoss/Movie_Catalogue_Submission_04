@@ -8,16 +8,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.database.FavoriteHelper;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.Favorite;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
 
-import static android.provider.MediaStore.Files.FileColumns.TITLE;
-
+import static com.mrjuoss.dt.dicoding.moviecatalogue_submission04.database.DatabaseContract.FavoriteColumns.*;
 public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
@@ -30,6 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     private TextView textDetailreleaseMovie;
     private TextView textDetailOverviewMovie;
     private Button buttonFavorite;
+    private FavoriteHelper favoriteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,24 +91,40 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_favorite_movie) {
-            // Ambil ID Movie ?
-            String title = textDetailTitleMovie.getText().toString().trim();
-            String overview = textDetailOverviewMovie.getText().toString().trim();
-            String releaseDate = textDetailreleaseMovie.getText().toString().trim();
-            // Ambil PosterPath Movie ?
-            String backdropPath = imageDetailPosterMovie.getResources().toString().trim();
+            ResultsItem movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+
+            int idFavorite = movie.getId();
+            String title = movie.getTitle();
+            String overview = movie.getOverview();
+            String releaseDate = movie.getReleaseDate();
+            String posterPath = movie.getPosterPath();
+            String backdropPath = movie.getBackdropPath();
 
             Favorite favorite = new Favorite();
+            favorite.setId(idFavorite);
             favorite.setTitle(title);
             favorite.setOverview(overview);
             favorite.setReleaseDate(releaseDate);
+            favorite.setPosterPath(posterPath);
             favorite.setBackdropPath(backdropPath);
 
-//            ContentValues values = new ContentValues();
-//            values.put(TITLE, title);
-//            values.put(OVERVIEW, overview);
-//            values.put(RELEASE_DATE, releaseDate);
-//            values.put(BACKDROP_PATH, backdropPath);
+            ContentValues values = new ContentValues();
+            values.put(ID_FAVORITE, idFavorite);
+            values.put(TITLE, title);
+            values.put(OVERVIEW, overview);
+            values.put(RELEASE_DATE, releaseDate);
+            values.put(BACKDROP_PATH, backdropPath);
+            values.put(TYPE_FAVORITE, "movie");
+
+            favoriteHelper = FavoriteHelper.getInstance(getApplicationContext());
+
+            long result = favoriteHelper.insert(values);
+
+            if (result > 0) {
+                Toast.makeText(this, "Berhasil menyimpan Data", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Gagal menyimpan Data", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
