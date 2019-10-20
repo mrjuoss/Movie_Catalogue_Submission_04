@@ -32,7 +32,6 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     private Button buttonFavorite;
 
     private FavoriteViewModel favoriteViewModel;
-    private FavoriteDao favoriteDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +87,7 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             String backdropPath = movie.getBackdropPath();
             String favoriteType = "movie";
 
+            // Log Berhasil
             Log.d(TAG, "detail 1 : " + title);
             Log.d(TAG, "detail 2 : " + overview);
             Log.d(TAG, "detail 3 : " + releaseDate);
@@ -102,8 +102,9 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             favorite.setReleaseDate(releaseDate);
             favorite.setPosterPath(posterPath);
             favorite.setBackdropPath(backdropPath);
-            favorite.setTypeFavorite("movie");
+            favorite.setTypeFavorite(favoriteType);
 
+            // Gagal (Null Reference)
             favoriteViewModel.insert(favorite);
 
             Toast.makeText(this, "Success Add Favorite Movie", Toast.LENGTH_SHORT).show();
