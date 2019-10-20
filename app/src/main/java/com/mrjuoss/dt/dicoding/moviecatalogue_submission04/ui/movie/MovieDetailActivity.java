@@ -118,6 +118,8 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             favoriteRepository.insertFavorite(title, overview, releaseDate, posterPath, backdropPath, favoriteType);
 
             Log.d(TAG, "Result Insert Favorite : "+favoriteRepository.getFavorites());
+
+            buttonFavorite.setText("Remove Favorite");
         }
     }
 }

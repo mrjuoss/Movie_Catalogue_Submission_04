@@ -33,7 +33,8 @@
             android:id="@+id/text_title"
             style="@style/TextContent.Title"
             app:layout_constraintStart_toEndOf="@+id/image_poster"
-            app:layout_constraintTop_toTopOf="@+id/layout_container" />
+            app:layout_constraintTop_toTopOf="@+id/layout_container"
+            app:layout_constraintEnd_toEndOf="@+id/layout_container"/>
 
 
         <TextView

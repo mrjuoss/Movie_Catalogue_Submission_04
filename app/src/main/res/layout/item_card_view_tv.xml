@@ -35,7 +35,8 @@
             style="@style/TextContent.Title"
             android:text="@string/title_tv_shows"
             app:layout_constraintStart_toEndOf="@+id/image_poster_tv"
-            app:layout_constraintTop_toTopOf="@+id/layout_container_tv" />
+            app:layout_constraintTop_toTopOf="@+id/layout_container_tv"
+            app:layout_constraintEnd_toEndOf="@+id/layout_container_tv"/>
 
         <TextView
             android:id="@+id/text_release_tv"

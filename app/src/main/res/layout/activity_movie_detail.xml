@@ -31,9 +31,10 @@
             <TextView
                 android:id="@+id/text_detail_title_movie"
                 style="@style/TextContent.Title.Detail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:text="@string/title_movies"
+                android:minLines="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_detail_poster_movie" />

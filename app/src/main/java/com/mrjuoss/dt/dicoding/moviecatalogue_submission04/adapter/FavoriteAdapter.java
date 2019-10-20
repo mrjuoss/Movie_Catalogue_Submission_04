@@ -1,7 +1,6 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.adapter;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.CustomOnItemClickListener;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.Favorite;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.movie.MovieDetailActivity;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.Favorite;
 
 import java.util.ArrayList;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
     private ArrayList<Favorite> listFavorites = new ArrayList<>();
-    private Activity activity;
+    private Context context;
 
-    public FavoriteAdapter(Activity activity) {
-        this.activity = activity;
+    public FavoriteAdapter(Context context, ArrayList<Favorite> listFavorite) {
+        this.context = context;
+        this.listFavorites = listFavorite;
     }
 
     public ArrayList<Favorite> getListFavorites() {
