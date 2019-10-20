@@ -5,8 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.Favorite;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.FavoriteRepository;

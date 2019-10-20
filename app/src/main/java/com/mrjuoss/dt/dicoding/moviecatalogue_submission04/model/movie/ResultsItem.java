@@ -3,9 +3,10 @@ package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.SerializedName;
 
 
 public class ResultsItem implements Parcelable {

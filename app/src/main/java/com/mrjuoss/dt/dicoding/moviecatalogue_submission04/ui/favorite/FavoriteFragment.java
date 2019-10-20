@@ -2,7 +2,6 @@ package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.favorite;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.adapter.FavoriteAdapter;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.Favorite;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.FavoriteRepository;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.viewmodel.FavoriteViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

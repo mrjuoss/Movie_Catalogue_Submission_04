@@ -22,34 +22,32 @@ import java.util.List;
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
     private List<Favorite> favorites = new ArrayList<>();
-//    private Context context;
+    private Context context;
 
-//    public List<Favorite> getListFavorites() {
-//        return listFavorites;
-//    }
+    public List<Favorite> getListFavorites() {
+        return favorites;
+    }
 
     public void setFavorites(List<Favorite> favorites) {
-        this.favorites = favorites;
+        if (favorites.size() > 0) {
+            this.favorites.clear();
+        }
 
-//        if (listFavorites.size() > 0) {
-//            this.listFavorites.clear();
-//        }
-//
-//        this.listFavorites.addAll(listFavorites);
+        this.favorites.addAll(favorites);
 
         notifyDataSetChanged();
     }
 
-//    public void addItem(Favorite favorite) {
-//        this.listFavorites.add(favorite);
-//        notifyItemInserted(listFavorites.size() - 1);
-//    }
-//
-//    public void removeItem(int position) {
-//        this.listFavorites.remove(position);
-//        notifyItemRemoved(position);
-//        notifyItemRangeChanged(position, listFavorites.size());
-//    }
+    public void addItem(Favorite favorite) {
+        this.favorites.add(favorite);
+        notifyItemInserted(favorites.size() - 1);
+    }
+
+    public void removeItem(int position) {
+        this.favorites.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, favorites.size());
+    }
 
     @NonNull
     @Override

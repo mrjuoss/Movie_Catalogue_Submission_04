@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.BuildConfig;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResponseMovie;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,13 +1,13 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.tv;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;

@@ -2,7 +2,6 @@ package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Favorite.class}, version = 3, exportSchema = false)
+@Database(entities = {Favorite.class}, version = 4, exportSchema = false)
 public abstract class FavoriteDatabase extends RoomDatabase {
 
     private static FavoriteDatabase instance;
@@ -20,7 +20,7 @@ public abstract class FavoriteDatabase extends RoomDatabase {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     FavoriteDatabase.class,
-                    "db_favorite")
+                    "db_favorite.db")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build();
@@ -45,10 +45,6 @@ public abstract class FavoriteDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            favoriteDao.insert(new Favorite("El Camino", "In the wake of his dramatic escape", "2019-10-11", "/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg", "/uLXK1LQM28XovWHPao3ViTeggXA.jpg", "movie"));
-            favoriteDao.insert(new Favorite("A Breaking", "dramatic escape from captivity", "2019-11-11", "/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg", "/uLXK1LQM28XovWHPao3ViTeggXA.jpg", "tv"));
-            favoriteDao.insert(new Favorite("Bad Movie", "In the wake of his captivity", "2019-12-11", "/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg", "/uLXK1LQM28XovWHPao3ViTeggXA.jpg", "tv"));
-            favoriteDao.insert(new Favorite("Test Movie", "In the wake of captivity", "2019-09-11", "/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg", "/uLXK1LQM28XovWHPao3ViTeggXA.jpg", "movie"));
             return null;
         }
     }

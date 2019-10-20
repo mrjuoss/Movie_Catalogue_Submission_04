@@ -1,6 +1,7 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.movie;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,21 +15,13 @@ import com.bumptech.glide.Glide;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.Favorite;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.FavoriteDao;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.viewmodel.FavoriteViewModel;
 
 public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
     public static final String EXTRA_MOVIE = "extra_movie";
-
-    public static final String TITLE = "title";
-    public static final String OVERVIEW = "overview";
-    public static final String RELEASE_DATE = "release_date";
-    public static final String POSTER_PATH = "poster_path";
-    public static final String BACKDROP_PATH = "backdrop_path";
-    public static final String FAVORITE_TYPE = "favorite_type";
-
-    public static final int REQUEST_ADD_FAVORITE = 1;
 
     ProgressBar progressBarDetailMovie;
     ImageView imageDetailPosterMovie;
@@ -39,6 +32,7 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     private Button buttonFavorite;
 
     private FavoriteViewModel favoriteViewModel;
+    private FavoriteDao favoriteDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +80,7 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         ResultsItem movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
-        if (buttonFavorite.getText().toString() == "Add Favorite") {
+        if (v.getId() == R.id.button_favorite_movie) {
             String title = movie.getTitle();
             String overview = movie.getOverview();
             String releaseDate = movie.getReleaseDate();
@@ -94,7 +88,22 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             String backdropPath = movie.getBackdropPath();
             String favoriteType = "movie";
 
-            Favorite favorite = new Favorite(title, overview, releaseDate, posterPath, backdropPath, favoriteType);
+            Log.d(TAG, "detail 1 : " + title);
+            Log.d(TAG, "detail 2 : " + overview);
+            Log.d(TAG, "detail 3 : " + releaseDate);
+            Log.d(TAG, "detail 4 : " + posterPath);
+            Log.d(TAG, "detail 5 : " + backdropPath);
+            Log.d(TAG, "detail 6 : " + favoriteType);
+
+            Favorite favorite = new Favorite();
+
+            favorite.setTitle(title);
+            favorite.setOverview(overview);
+            favorite.setReleaseDate(releaseDate);
+            favorite.setPosterPath(posterPath);
+            favorite.setBackdropPath(backdropPath);
+            favorite.setTypeFavorite("movie");
+
             favoriteViewModel.insert(favorite);
 
             Toast.makeText(this, "Success Add Favorite Movie", Toast.LENGTH_SHORT).show();
@@ -102,7 +111,6 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             buttonFavorite.setText("Remove");
         } else {
             buttonFavorite.setText("Remove Favorite");
-            Toast.makeText(this, "Hapus Favorite", Toast.LENGTH_SHORT).show();
         }
 
 

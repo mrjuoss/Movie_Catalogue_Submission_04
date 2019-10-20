@@ -1,7 +1,8 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.tv;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ResponseTvShow{
 

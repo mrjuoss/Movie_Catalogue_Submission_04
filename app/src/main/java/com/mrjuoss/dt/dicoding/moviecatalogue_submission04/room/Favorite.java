@@ -1,6 +1,7 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "table_favorite")
@@ -72,6 +73,9 @@ public class Favorite {
         this.typeFavorite = typeFavorite;
     }
 
+    @Ignore
+    public Favorite() {
+    }
 
     public Favorite(String title, String overview, String releaseDate, String posterPath, String backdropPath, String typeFavorite) {
         this.title = title;
