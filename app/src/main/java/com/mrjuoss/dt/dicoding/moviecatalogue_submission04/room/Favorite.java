@@ -3,10 +3,8 @@ package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.io.Serializable;
-
-@Entity
-public class Favorite implements Serializable {
+@Entity(tableName = "table_favorite")
+public class Favorite {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -71,6 +69,16 @@ public class Favorite implements Serializable {
     }
 
     public void setTypeFavorite(String typeFavorite) {
+        this.typeFavorite = typeFavorite;
+    }
+
+
+    public Favorite(String title, String overview, String releaseDate, String posterPath, String backdropPath, String typeFavorite) {
+        this.title = title;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
         this.typeFavorite = typeFavorite;
     }
 }

@@ -1,5 +1,9 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,20 +11,32 @@ import androidx.lifecycle.ViewModel;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.Favorite;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.FavoriteRepository;
 
-public class FavoriteViewModel extends ViewModel {
+import java.util.List;
 
-    private MutableLiveData<Favorite> mutableLiveDataFavorite;
-    private FavoriteRepository favoriteRepository;
+public class FavoriteViewModel extends AndroidViewModel {
 
-    public void init(final String data) {
-        if (mutableLiveDataFavorite != null) {
-            return;
-        }
+    private FavoriteRepository repository;
+    private LiveData<List<Favorite>> listFavorite;
 
-        favoriteRepository = FavoriteRepository.getInstance();
+    public FavoriteViewModel(@NonNull Application application) {
+        super(application);
+        repository = new FavoriteRepository(application);
+        listFavorite = repository.getAllFavorites();
     }
 
-    public LiveData<Favorite> getFavoriteRepository() {
-        return mutableLiveDataFavorite;
+    public void insert(Favorite favorite) {
+        repository.insert(favorite);
     }
+
+    public void delete(Favorite favorite) {
+        repository.delete(favorite);
+    }
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    public LiveData<List<Favorite>> getListFavorite() {
+        return listFavorite;
+    }
+
 }

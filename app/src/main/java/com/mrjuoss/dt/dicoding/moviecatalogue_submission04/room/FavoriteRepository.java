@@ -1,102 +1,81 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room;
 
-import android.content.Context;
+import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
-
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.network.MovieRepository;
 
 import java.util.List;
 
 public class FavoriteRepository {
 
-    private String DATABASE_NAME = "db_favorite";
+    private FavoriteDao favoriteDao;
+    private LiveData<List<Favorite>> allFavorite;
 
-    private FavoriteDatabase favoriteDatabase;
-    private static FavoriteRepository favoriteRepository;
+    public FavoriteRepository(Application application) {
+        FavoriteDatabase database = FavoriteDatabase.getInstance(application);
+        favoriteDao = database.favoriteDao();
+        allFavorite = favoriteDao.getAllFavorites();
+    }
 
-    public static FavoriteRepository getInstance() {
-        if (favoriteRepository == null) {
-            favoriteRepository = new FavoriteRepository();
+    public void insert(Favorite favorite) {
+        new InsertFavoriteAsyncTask(favoriteDao).execute(favorite);
+    }
+
+    public void delete(Favorite favorite) {
+        new DeleteFavoriteAsyncTask(favoriteDao).execute(favorite);
+    }
+
+    public void deleteAll() {
+        new DeleteAllFavoriteAsyncTask(favoriteDao).execute();
+    }
+
+    public LiveData<List<Favorite>> getAllFavorites() {
+        return allFavorite;
+    }
+
+    private static class InsertFavoriteAsyncTask extends AsyncTask<Favorite, Void, Void> {
+
+        private FavoriteDao favoriteDao;
+        private InsertFavoriteAsyncTask(FavoriteDao favoriteDao) {
+            this.favoriteDao = favoriteDao;
         }
-        return favoriteRepository;
-    }
+        @Override
+        protected Void doInBackground(Favorite... favorites) {
 
-    public FavoriteRepository() {
-    }
-
-    public FavoriteRepository(Context context) {
-        favoriteDatabase = Room.databaseBuilder(
-                context,
-                FavoriteDatabase.class,
-                DATABASE_NAME
-        ).build();
-    }
-
-    public void insertFavorite(
-            String title,
-            String overview,
-            String releaseDate,
-            String posterPath,
-            String backdropPath,
-            String fovoriteType) {
-        //insertFavorite(title, overview, releaseDate, posterPath, backdropPath, fovoriteType);
-        Favorite favorite = new Favorite();
-        favorite.setTitle(title);
-        favorite.setOverview(overview);
-        favorite.setReleaseDate(releaseDate);
-        favorite.setPosterPath(posterPath);
-        favorite.setBackdropPath(backdropPath);
-
-        insertFavorite(favorite);
-    }
-
-    public void insertFavorite(final Favorite favorite) {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                favoriteDatabase.daoAccess().insertFavorite(favorite);
-                return null;
-            }
-        }.execute();
-    }
-
-    public void deleteFavorite(final int id) {
-        final LiveData<Favorite> favorite = getFavorite(id);
-
-        if (favorite != null) {
-            new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    favoriteDatabase.daoAccess().deleteFavorite(favorite.getValue());
-                    return null;
-                }
-            }.execute();
+            favoriteDao.insert(favorites[0]);
+            return null;
         }
     }
-    public void deleteFavorite(final Favorite favorite) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                favoriteDatabase.daoAccess().deleteFavorite(favorite);
-                return null;
-            }
-        }.execute();
+
+    private static class DeleteFavoriteAsyncTask extends AsyncTask<Favorite, Void, Void> {
+
+        private FavoriteDao favoriteDao;
+        private DeleteFavoriteAsyncTask(FavoriteDao favoriteDao) {
+            this.favoriteDao = favoriteDao;
+        }
+        @Override
+        protected Void doInBackground(Favorite... favorites) {
+
+            favoriteDao.delete(favorites[0]);
+
+            return null;
+        }
     }
 
-    public LiveData<Favorite> getFavorite(int id) {
-        return favoriteDatabase.daoAccess().getFavorite(id);
+    private static class DeleteAllFavoriteAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private FavoriteDao favoriteDao;
+        private DeleteAllFavoriteAsyncTask(FavoriteDao favoriteDao) {
+            this.favoriteDao = favoriteDao;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            favoriteDao.deleteAll();
+            return null;
+        }
     }
-
-    public LiveData<List<Favorite>> getFavorites() {
-        return favoriteDatabase.daoAccess().fetchAll();
-    }
-
-
 
 
 }

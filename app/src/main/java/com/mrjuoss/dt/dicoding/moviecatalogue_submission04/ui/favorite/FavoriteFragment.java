@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,9 +32,9 @@ public class FavoriteFragment extends Fragment {
     private ProgressBar progressBarFavorite;
     private RecyclerView receyclerViewFavorite;
 
-    private ArrayList<Favorite> favoriteArrayList = new ArrayList<>();
-    private FavoriteAdapter favoriteAdapter;
     private FavoriteViewModel favoriteViewModel;
+//    private ArrayList<Favorite> favoriteArrayList = new ArrayList<>();
+//    private FavoriteAdapter favoriteAdapter;
 
     public FavoriteFragment() {
         // Required empty public constructor
@@ -51,30 +53,18 @@ public class FavoriteFragment extends Fragment {
         receyclerViewFavorite.setLayoutManager(new LinearLayoutManager(this.getContext()));
         receyclerViewFavorite.setHasFixedSize(true);
         
-        favoriteAdapter = new FavoriteAdapter(getContext(), favoriteArrayList);
-        receyclerViewFavorite.setAdapter(favoriteAdapter);
+        FavoriteAdapter adapter = new FavoriteAdapter();
+        receyclerViewFavorite.setAdapter(adapter);
         
         showLoading(true);
-        //TextView textFavorite = view.findViewById(R.id.text_favorite);
 
-        FavoriteRepository favoriteRepository = new FavoriteRepository(getContext());
-
-        favoriteRepository.getFavorites().observe(this, new Observer<List<Favorite>>() {
+        favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        favoriteViewModel.getListFavorite().observe(this, new Observer<List<Favorite>>() {
             @Override
             public void onChanged(List<Favorite> favorites) {
-                for (Favorite favorite : favorites) {
-                    System.out.println("------------");
-                    System.out.println(favorite.getId());
-                    System.out.println(favorite.getTitle());
-                    System.out.println(favorite.getReleaseDate());
-                    System.out.println(favorite.getOverview());
-                    System.out.println(favorite.getPosterPath());
-                    System.out.println(favorite.getBackdropPath());
-                    System.out.println(favorite.getTypeFavorite());
-
-                    Log.d("Favorite", "onChanged: " +favorite.getTitle());
-                }
-
+               // Update RecyclerView
+                adapter.setFavorites(favorites);
+                Toast.makeText(getContext(), "RecyclerView Favorite onChanged", Toast.LENGTH_SHORT).show();
                 showLoading(false);
             }
         });

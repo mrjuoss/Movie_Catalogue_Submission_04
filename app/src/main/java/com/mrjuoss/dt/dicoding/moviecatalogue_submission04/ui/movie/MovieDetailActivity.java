@@ -1,6 +1,5 @@
 package com.mrjuoss.dt.dicoding.moviecatalogue_submission04.ui.movie;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -9,18 +8,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.database.FavoriteHelper;
-import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.Favorite;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.FavoriteRepository;
 
-import static com.mrjuoss.dt.dicoding.moviecatalogue_submission04.database.DatabaseContract.FavoriteColumns.*;
 public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
@@ -33,7 +28,6 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     private TextView textDetailreleaseMovie;
     private TextView textDetailOverviewMovie;
     private Button buttonFavorite;
-    private FavoriteHelper favoriteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +87,7 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
 
-        favoriteHelper = FavoriteHelper.getInstance(getApplicationContext());
+        //favoriteHelper = FavoriteHelper.getInstance(getApplicationContext());
 
         if (v.getId() == R.id.button_favorite_movie) {
             ResultsItem movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
@@ -112,14 +106,14 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             Log.d(TAG, "5 : " + backdropPath);
             Log.d(TAG, "6 : " + favoriteType);
 
-            FavoriteRepository favoriteRepository = new FavoriteRepository(getApplicationContext());
+//            FavoriteRepository favoriteRepository = new FavoriteRepository(getApplicationContext());
+//
+//            Log.d(TAG, "Insert FavoriteModel : "+title +", "+ overview +", "+ releaseDate +", "+ posterPath +", "+ backdropPath +", "+ favoriteType);
+//            favoriteRepository.insert(title, overview, releaseDate, posterPath, backdropPath, favoriteType);
+//
+//            Log.d(TAG, "Result Insert FavoriteModel : "+favoriteRepository.getFavorites());
 
-            Log.d(TAG, "Insert Favorite : "+title +", "+ overview +", "+ releaseDate +", "+ posterPath +", "+ backdropPath +", "+ favoriteType);
-            favoriteRepository.insertFavorite(title, overview, releaseDate, posterPath, backdropPath, favoriteType);
-
-            Log.d(TAG, "Result Insert Favorite : "+favoriteRepository.getFavorites());
-
-            buttonFavorite.setText("Remove Favorite");
+            buttonFavorite.setText("Remove FavoriteModel");
         }
     }
 }
