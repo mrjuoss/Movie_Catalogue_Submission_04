@@ -18,6 +18,7 @@ import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.R;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.database.FavoriteHelper;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.Favorite;
 import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.model.movie.ResultsItem;
+import com.mrjuoss.dt.dicoding.moviecatalogue_submission04.room.FavoriteRepository;
 
 import static com.mrjuoss.dt.dicoding.moviecatalogue_submission04.database.DatabaseContract.FavoriteColumns.*;
 public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -111,30 +112,12 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
             Log.d(TAG, "5 : " + backdropPath);
             Log.d(TAG, "6 : " + favoriteType);
 
-            Favorite favorite = new Favorite();
-            favorite.setTitle(title);
-            favorite.setOverview(overview);
-            favorite.setReleaseDate(releaseDate);
-            favorite.setPosterPath(posterPath);
-            favorite.setBackdropPath(backdropPath);
-            favorite.setTypeFavorite(favoriteType);
+            FavoriteRepository favoriteRepository = new FavoriteRepository(getApplicationContext());
 
-            ContentValues values = new ContentValues();
-            values.put(TITLE, title);
-            values.put(OVERVIEW, overview);
-            values.put(RELEASE_DATE, releaseDate);
-            values.put(BACKDROP_PATH, backdropPath);
-            values.put(TYPE_FAVORITE, favoriteType);
+            Log.d(TAG, "Insert Favorite : "+title +", "+ overview +", "+ releaseDate +", "+ posterPath +", "+ backdropPath +", "+ favoriteType);
+            favoriteRepository.insertFavorite(title, overview, releaseDate, posterPath, backdropPath, favoriteType);
 
-            long result = favoriteHelper.insert(values);
-
-            if (result > 0) {
-                Toast.makeText(this, "Berhasil menyimpan Data", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Gagal menyimpan Data", Toast.LENGTH_SHORT).show();
-            }
-
-            finish();
+            Log.d(TAG, "Result Insert Favorite : "+favoriteRepository.getFavorites());
         }
     }
 }
