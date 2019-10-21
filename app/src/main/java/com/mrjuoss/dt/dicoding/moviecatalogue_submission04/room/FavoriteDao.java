@@ -12,7 +12,7 @@ import java.util.List;
 public interface FavoriteDao {
 
     @Insert
-    void insert(Favorite favorite);
+    void insert(Favorite... favorites);
 
     @Delete
     void delete(Favorite favorite);
@@ -20,6 +20,6 @@ public interface FavoriteDao {
     @Query("DELETE FROM table_favorite")
     void deleteAll();
 
-    @Query("SELECT * FROM table_favorite ORDER BY id DESC")
+    @Query("SELECT * FROM table_favorite")
     LiveData<List<Favorite>> getAllFavorites();
 }
