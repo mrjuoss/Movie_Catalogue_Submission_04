@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Favorite.class}, version = 4, exportSchema = false)
+@Database(entities = {Favorite.class}, version = 1, exportSchema = false)
 public abstract class FavoriteDatabase extends RoomDatabase {
 
     private static FavoriteDatabase instance;
@@ -20,13 +20,15 @@ public abstract class FavoriteDatabase extends RoomDatabase {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     FavoriteDatabase.class,
-                    "db_favorite.db")
+                    "db_favorite")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build();
         }
         return instance;
     }
+
+
 
     private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override

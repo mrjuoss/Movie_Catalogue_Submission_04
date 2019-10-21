@@ -18,8 +18,8 @@ public class FavoriteRepository {
         allFavorite = favoriteDao.getAllFavorites();
     }
 
-    public void insert(Favorite favorite) {
-        new InsertFavoriteAsyncTask(favoriteDao).execute(favorite);
+    public void insert(Favorite... favorites) {
+        new InsertFavoriteAsyncTask(favoriteDao).execute(favorites);
     }
 
     public void delete(Favorite favorite) {
